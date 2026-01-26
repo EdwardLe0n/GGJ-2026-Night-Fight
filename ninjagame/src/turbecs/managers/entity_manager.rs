@@ -180,7 +180,7 @@ impl GameState {
 
     pub fn on_render(&mut self) {
 
-        clear(0x0000030ff);
+        clear(0x0000000ff);
 
         // UNCOMMENT LATER
         // clear(0x000010ff);

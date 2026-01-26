@@ -16,8 +16,6 @@ use component_system::component::ComponentData;
 
 use assets::prefabs::{general_prefabs};
 
-use assets::online::online_score_board::{NewElement, ScoreboardElement};
-
 #[turbo::serialize]
 #[derive(PartialEq)]
 pub struct RectangleColliderComponent {
