@@ -107,7 +107,7 @@ pub fn new_to_host() -> (Entity, VecDeque<Component>) {
 
     button.border.set_size(2);
     button.border.set_radius(2);
-    button.border.set_color(0xaaaaaaff);
+    button.border.set_color(0xffffffff);
 
     button.transform.set_width(100);
     button.transform.set_height(40);
@@ -147,7 +147,7 @@ pub fn new_to_join() -> (Entity, VecDeque<Component>) {
 
     button.border.set_size(2);
     button.border.set_radius(2);
-    button.border.set_color(0xaaaaaaff);
+    button.border.set_color(0xffffffff);
 
     button.transform.set_width(100);
     button.transform.set_height(40);
@@ -178,7 +178,7 @@ pub fn new_to_title() -> (Entity, VecDeque<Component>) {
     let mut ent_queue = VecDeque::new();
 
     ent.transform.nudge_y( (screen().h() / 2 * 17 / 20) as i32 );
-    ent.transform.nudge_x((screen().h() / 2 * 3 / 4) as i32 * -1);
+    ent.transform.nudge_x((screen().w() / 2) as i32 * -1 + 70);
 
     ent.transform.position.set_vertical_pref(bound_data::Vertical::Bottom);
 
@@ -188,7 +188,7 @@ pub fn new_to_title() -> (Entity, VecDeque<Component>) {
 
     button.border.set_size(2);
     button.border.set_radius(2);
-    button.border.set_color(0xaaaaaaff);
+    button.border.set_color(0xffffffff);
 
     button.transform.set_width(100);
     button.transform.set_height(40);
@@ -197,7 +197,7 @@ pub fn new_to_title() -> (Entity, VecDeque<Component>) {
 
     ent_queue.push_back(Component::new(ComponentData::Button(button)));
 
-    let mut text_box = TextBoxComponent::new("Back".to_string());
+    let mut text_box = TextBoxComponent::new("To Title".to_string());
 
     text_box.transform.set_height(100);
     text_box.transform.set_width(100);

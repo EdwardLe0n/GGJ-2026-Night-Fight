@@ -23,6 +23,7 @@ use misc_components::comp_logo_fade::{LogoFade, LogoFadeComponent};
 
 use online_components::comp_code_container::CodeContainerComponent;
 use online_components::comp_number::NumberComponent;
+use online_components::comp_host_check::HostCheckComponent;
 
 pub fn new_code_container () -> (Entity, VecDeque<Component>) {
 
@@ -121,7 +122,8 @@ pub fn new_clear () -> (Entity, VecDeque<Component>) {
     let mut ent = Entity::new_base("Clear button".to_string());
     let mut ent_queue = VecDeque::new();
     
-    ent.transform.position.nudge_y((screen().h() / 2) as i32 - 20);
+    ent.transform.position.nudge_y(50);
+    ent.transform.position.nudge_x((screen().w() as i32) / 4);
 
     ent.transform.position.set_vertical_pref(bound_data::Vertical::Bottom);
 
@@ -131,7 +133,7 @@ pub fn new_clear () -> (Entity, VecDeque<Component>) {
 
     button.border.set_size(2);
     button.border.set_radius(2);
-    button.border.set_color(0xaaaaaaff);
+    button.border.set_color(0xffffffff);
 
     button.transform.set_width(100);
     button.transform.set_height(40);
@@ -151,6 +153,66 @@ pub fn new_clear () -> (Entity, VecDeque<Component>) {
     ent_queue.push_back(Component::new(ComponentData::TextBox(text_box)));
 
     ent_queue.push_back(Component::new(ComponentData::TextBoxResizer(TextBoxResizerComponent::new_with_buffers(2, 2))));
+
+    return (ent, ent_queue);
+
+}
+
+pub fn new_to_host_wait() -> (Entity, VecDeque<Component>) {
+
+    let mut ent = Entity::new_base("Clear button".to_string());
+    let mut ent_queue = VecDeque::new();
+    
+    ent.transform.position.nudge_y(50);
+    ent.transform.position.nudge_x(0);
+
+    ent.transform.position.set_vertical_pref(bound_data::Vertical::Bottom);
+
+    let mut button = ButtonComponent::new();
+
+    button.color = 0x000000ff;
+
+    button.border.set_size(2);
+    button.border.set_radius(2);
+    button.border.set_color(0xffffffff);
+
+    button.transform.set_width(100);
+    button.transform.set_height(40);
+
+    button.button_type = ButtonTypes::ToHostWait;
+
+    ent_queue.push_back(Component::new(ComponentData::Button(button)));
+
+    let mut text_box = TextBoxComponent::new("Host".to_string());
+
+    text_box.transform.set_height(100);
+    text_box.transform.set_width(100);
+
+    text_box.font = "large".to_string();
+    text_box.color = 0xffffffff;
+
+    ent_queue.push_back(Component::new(ComponentData::TextBox(text_box)));
+
+    ent_queue.push_back(Component::new(ComponentData::TextBoxResizer(TextBoxResizerComponent::new_with_buffers(2, 2))));
+
+    return (ent, ent_queue);
+
+}
+
+pub fn new_host_check_up (some_u32 : u32) -> (Entity, VecDeque<Component>) {
+
+    let mut ent = Entity::new_base("host check up".to_string());
+    let mut ent_queue = VecDeque::new();
+    
+    ent.set_layer(3);
+    
+    ent_queue.push_back(
+        Component::new(
+            ComponentData::HostCheck(
+                HostCheckComponent::new(some_u32)
+            )
+        )
+    );
 
     return (ent, ent_queue);
 

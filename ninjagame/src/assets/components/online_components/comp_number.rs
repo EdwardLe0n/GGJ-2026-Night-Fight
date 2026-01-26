@@ -1,9 +1,5 @@
 // Core directories
 
-use std::collections::{VecDeque};
-
-use turbo::*;
-
 #[turbo::serialize]
 #[derive(PartialEq)]
 pub struct NumberComponent {

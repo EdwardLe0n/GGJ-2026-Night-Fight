@@ -32,6 +32,7 @@ use game_components::comp_rect_collider::RectangleColliderComponent;
 
 use online_components::comp_code_container::CodeContainerComponent;
 use online_components::comp_number::NumberComponent;
+use online_components::comp_host_check::HostCheckComponent;
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -68,6 +69,7 @@ pub enum ComponentData {
 
     CodeContainer (CodeContainerComponent),
     Number (NumberComponent),
+    HostCheck (HostCheckComponent),
 
     // Misc
 
@@ -221,6 +223,10 @@ impl Component {
 
             ComponentData::SpriteSheetRenderer(sprt_sht_rend_component) => {
                 sprt_sht_rend_component.update(state);
+            },
+
+            ComponentData::HostCheck(host_check_comp) => {
+                host_check_comp.update(ent, state);
             }
             
             _default => {}            

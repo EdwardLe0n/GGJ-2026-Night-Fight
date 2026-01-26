@@ -58,6 +58,7 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component
         Scenes::Misc => {return make_misc_scene()},
 
         Scenes::HostCode => {return make_host_code_scene()},
+        Scenes::HostWait => {return make_host_wait_scene()},
 
         _default => {
             return VecDeque::new();
@@ -117,7 +118,17 @@ pub fn make_host_code_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
     ent_vec.push_back(online_set_up_prefabs::new_number(9));
 
     ent_vec.push_back(online_set_up_prefabs::new_clear());
+    ent_vec.push_back(online_set_up_prefabs::new_to_host_wait());
 
+    return ent_vec;
+
+}
+
+pub fn make_host_wait_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
+
+    let mut ent_vec = VecDeque::new();
+
+    ent_vec.push_back(general_prefabs::new_to_title());
 
     return ent_vec;
 

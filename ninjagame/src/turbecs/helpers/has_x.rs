@@ -74,6 +74,8 @@ impl Component {
             ComponentData::LogoFade(_) => {self.has.has_update = true;},
 
             ComponentData::SpriteSheetRenderer(_) => {self.has.has_update = true;},
+
+            ComponentData::HostCheck(_) => {self.has.has_update = true;}
             
             _default => {}
         }

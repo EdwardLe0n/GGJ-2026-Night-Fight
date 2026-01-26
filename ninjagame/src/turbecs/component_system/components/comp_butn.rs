@@ -25,7 +25,7 @@ use buttons::{scene_loader_buttons, misc_buttons, online_buttons};
 // Scene loaders <3
 
 use scene_loader_buttons::{to_misc, to_title};
-use scene_loader_buttons::{to_host_code};
+use scene_loader_buttons::{to_host_code, to_host_wait};
 
 // misc buttons
 
@@ -318,6 +318,9 @@ impl ButtonComponent {
             },
             ButtonTypes::ToHost => {
                 to_host_code::on_click(self, _ent, _state);
+            },
+            ButtonTypes::ToHostWait => {
+                to_host_wait::on_click(self, _ent, _state);
             },
 
             // misc
