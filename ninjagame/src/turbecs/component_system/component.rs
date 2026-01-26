@@ -1,3 +1,4 @@
+use turbo::serde_json::Number;
 use turbo::*;
 
 use crate::{turbecs, GameState};
@@ -16,7 +17,7 @@ use components::{comp_text_box::TextBoxComponent, comp_butn::ButtonComponent, co
 // User made components
 use crate::assets;
 
-use assets::components::{misc_components, game_components};
+use assets::components::{misc_components, game_components, online_components};
 
 use misc_components::{comp_resizer::ResizerComponent, comp_textbox_resizer::TextBoxResizerComponent};
 use misc_components::{comp_text_box_filler::TextBoxFillerComponent, comp_score_text_update::ScoreTextUpdateComponent};
@@ -25,8 +26,12 @@ use misc_components::{comp_fade::FadeComponent, comp_logo_fade::LogoFadeComponen
 // Game specific components
 
 use game_components::comp_spritesht_rend::SpriteSheetRendererComponent;
-
 use game_components::comp_rect_collider::RectangleColliderComponent;
+
+// online components
+
+use online_components::comp_code_container::CodeContainerComponent;
+use online_components::comp_number::NumberComponent;
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -60,6 +65,9 @@ pub enum ComponentData {
     // Game specific
 
     RectangleCollider (RectangleColliderComponent),
+
+    CodeContainer (CodeContainerComponent),
+    Number (NumberComponent),
 
     // Misc
 
@@ -105,7 +113,17 @@ impl Component {
             ComponentData::RectangleCollider(_) => {
                 return ComponentTypes::RectangleCollider;
             },
+
+            // Game Specific
+
+            ComponentData::CodeContainer(_) => {
+                return ComponentTypes::CodeContainer;
+            },
             
+            ComponentData::Number(_) => {
+                return ComponentTypes::Number;
+            },
+
             // Edge case
 
             _default => {
@@ -242,6 +260,12 @@ impl Component {
 
             ComponentData::SpriteSheetRenderer(sprt_sht_rend_component) => {
                 sprt_sht_rend_component.render(_transform);
+            }
+
+            // Game Specific components
+
+            ComponentData::CodeContainer(code_cont_component) => {
+                code_cont_component.render();
             }
 
             // Space for edge case

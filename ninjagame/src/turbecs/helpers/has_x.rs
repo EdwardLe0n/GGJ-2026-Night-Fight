@@ -94,6 +94,10 @@ impl Component {
             // Extra functionality
 
             ComponentData::SpriteSheetRenderer(_) => {self.has.has_render = true;},
+
+            // Game specific
+
+            ComponentData::CodeContainer(_)     => {self.has.has_render = true;},
             
             _default => {}
         }

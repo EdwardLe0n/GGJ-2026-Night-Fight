@@ -18,8 +18,9 @@ pub enum ComponentTypes {
     PlayerController,
     SpriteSheetRenderer,
 
-    Projectile,
-    Creature,
+    CodeContainer,
+    Number,
+
     RectangleCollider,
 
     // Other

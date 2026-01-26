@@ -20,15 +20,20 @@ use helpers::{transform::Transform, border::Border, substates::SubStates};
 
 use component_system::components::buttons;
 
-use buttons::{scene_loader_buttons, misc_buttons};
+use buttons::{scene_loader_buttons, misc_buttons, online_buttons};
 
 // Scene loaders <3
 
 use scene_loader_buttons::{to_misc, to_title};
+use scene_loader_buttons::{to_host_code};
 
 // misc buttons
 
 use misc_buttons::{mobile_on, mouse_on};
+
+// online buttons
+
+use online_buttons::{number_butn, clear_butn};
 
 // Custom states to deal with the three main instances
 
@@ -311,6 +316,9 @@ impl ButtonComponent {
             ButtonTypes::ToTitle => {
                 to_title::on_click(self, _ent, _state);
             },
+            ButtonTypes::ToHost => {
+                to_host_code::on_click(self, _ent, _state);
+            },
 
             // misc
 
@@ -319,6 +327,16 @@ impl ButtonComponent {
             },
             ButtonTypes::MouseOn => {
                 mouse_on::on_click(self, _ent, _state);
+            },
+
+            // online
+
+            ButtonTypes::Number => {
+                number_butn::on_click(self, _ent, _state);
+            },
+
+            ButtonTypes::Clear => {
+                clear_butn::on_click(self, _ent, _state);
             },
 
             _default => {

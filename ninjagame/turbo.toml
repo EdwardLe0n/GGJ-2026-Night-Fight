@@ -4,8 +4,8 @@ description = "some global game jam game"
 authors = ["Edward Leon"]
 
 [canvas]
-width = 256
-height = 256
+width = 480
+height = 270
 
 [turbo-os]
 api-url = "https://os.turbo.computer"

@@ -8,17 +8,19 @@ pub enum ButtonTypes {
     ToTitle,
     Misc,
     
-    ToSettings,
-    ToIntro,
-    ToName,
+    ToHost,
+    ToHostWait,
     ToGame,
-    ToResults,
-    ToScoreBoard,
+
+    ToJoin,
 
     Test,
 
     MobileOn,
     MouseOn,
+
+    Number,
+    Clear,
 
     // User made buttons
 
