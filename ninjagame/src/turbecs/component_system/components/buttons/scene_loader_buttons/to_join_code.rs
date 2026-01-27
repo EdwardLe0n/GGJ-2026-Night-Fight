@@ -16,6 +16,6 @@ use component_system::components::comp_butn::ButtonComponent;
 
 pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &mut GameState) {
 
-    _state.scene_manager.load_scene(Scenes::HostCode);
+    _state.scene_manager.load_scene(Scenes::PlayerCode);
 
 }

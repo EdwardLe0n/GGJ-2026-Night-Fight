@@ -29,6 +29,7 @@ pub enum Scenes {
     HostGame,
 
     PlayerCode,
+    PlayerWait,
     PlayerGameButtons,
 
     Misc
@@ -59,6 +60,8 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component
 
         Scenes::HostCode => {return make_host_code_scene()},
         Scenes::HostWait => {return make_host_wait_scene()},
+
+        Scenes::PlayerCode => {return make_player_code_scene()},
 
         _default => {
             return VecDeque::new();
@@ -120,6 +123,8 @@ pub fn make_host_code_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
     ent_vec.push_back(online_set_up_prefabs::new_clear());
     ent_vec.push_back(online_set_up_prefabs::new_to_host_wait());
 
+    ent_vec.push_back(general_prefabs::new_to_title());
+
     return ent_vec;
 
 }
@@ -127,6 +132,32 @@ pub fn make_host_code_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 pub fn make_host_wait_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
     let mut ent_vec = VecDeque::new();
+
+    ent_vec.push_back(general_prefabs::new_to_title());
+
+    return ent_vec;
+
+}
+
+pub fn make_player_code_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
+
+    let mut ent_vec = VecDeque::new();
+
+    ent_vec.push_back(online_set_up_prefabs::new_code_container());
+
+    ent_vec.push_back(online_set_up_prefabs::new_number(0));
+    ent_vec.push_back(online_set_up_prefabs::new_number(1));
+    ent_vec.push_back(online_set_up_prefabs::new_number(2));
+    ent_vec.push_back(online_set_up_prefabs::new_number(3));
+    ent_vec.push_back(online_set_up_prefabs::new_number(4));
+    ent_vec.push_back(online_set_up_prefabs::new_number(5));
+    ent_vec.push_back(online_set_up_prefabs::new_number(6));
+    ent_vec.push_back(online_set_up_prefabs::new_number(7));
+    ent_vec.push_back(online_set_up_prefabs::new_number(8));
+    ent_vec.push_back(online_set_up_prefabs::new_number(9));
+
+    ent_vec.push_back(online_set_up_prefabs::new_clear());
+    ent_vec.push_back(online_set_up_prefabs::new_to_player_wait());
 
     ent_vec.push_back(general_prefabs::new_to_title());
 

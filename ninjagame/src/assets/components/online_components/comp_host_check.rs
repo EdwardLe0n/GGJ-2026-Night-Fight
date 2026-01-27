@@ -57,6 +57,9 @@ impl HostCheckComponent {
                 self.check_db(state);
 
             }
+            else {
+                self.validate_db(state);
+            }
 
         }
 
@@ -124,6 +127,36 @@ impl HostCheckComponent {
 
         }
 
+    }
+
+    pub fn validate_db(&mut self, state : &mut GameState) {
+
+        self.db_ref = HostSheet::watch("hostTracker").parse().unwrap_or(HostSheet::empty());
+
+        // If host sheet is empty, ignore
+        if self.db_ref.board == HostSheet::empty().board {
+            return;
+        }
+
+        // triple checks that we are the host that owns the key
+        if self.db_ref.board.contains_key(&self.lobby_code) {
+
+            if self.player_id != (self.db_ref.board.get(&self.lobby_code).unwrap_or(&"".to_string())).to_string() {
+
+                state.scene_manager.load_scene(Scenes::HostCode);
+                
+            }
+            else {
+                
+                // Sanity
+                // log!("we gucci twin");
+
+                // We are the host for sure here
+                // Make a new component to start chatting with players
+
+            }
+
+        }
     }
 
 }

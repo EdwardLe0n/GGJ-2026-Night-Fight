@@ -13,6 +13,7 @@ pub enum ButtonTypes {
     ToGame,
 
     ToJoin,
+    ToJoinWait,
 
     Test,
 
