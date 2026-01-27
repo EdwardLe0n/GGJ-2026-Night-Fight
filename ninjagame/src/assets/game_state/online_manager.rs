@@ -11,7 +11,9 @@ use online::host_tracker::{ClearHostList, InitCode};
 #[derive(PartialEq)]
 pub struct OnlineManager {
     
-    
+    pub lobby_code : u32,
+    pub first_id : String,
+    pub second_id : String
 
 }
 
@@ -19,13 +21,10 @@ impl OnlineManager {
     
     pub fn new() -> Self {
 
-        // NEEDED, game breaks otherwise
-
-        let start = InitCode::new();
-        start.exec();
-
         return Self {
-            
+            lobby_code : 0,
+            first_id : "".to_string(),
+            second_id : "".to_string()
         };
 
     }

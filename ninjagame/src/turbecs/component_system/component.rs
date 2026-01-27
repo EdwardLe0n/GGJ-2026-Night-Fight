@@ -32,7 +32,11 @@ use game_components::comp_rect_collider::RectangleColliderComponent;
 
 use online_components::comp_code_container::CodeContainerComponent;
 use online_components::comp_number::NumberComponent;
+
 use online_components::comp_host_check::HostCheckComponent;
+use online_components::comp_host_wait::HostWaitComponent;
+
+use online_components::comp_player_wait::PlayerWaitComponent;
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -69,7 +73,11 @@ pub enum ComponentData {
 
     CodeContainer (CodeContainerComponent),
     Number (NumberComponent),
+
     HostCheck (HostCheckComponent),
+    HostWait (HostWaitComponent),
+
+    PlayerWait (PlayerWaitComponent),
 
     // Misc
 
@@ -231,7 +239,14 @@ impl Component {
 
             ComponentData::HostCheck(host_check_comp) => {
                 host_check_comp.update(ent, state);
-            }
+            },
+            ComponentData::HostWait(host_wait_comp) => {
+                host_wait_comp.update(ent, state);
+            },
+
+            ComponentData::PlayerWait(player_wait_comp) => {
+                player_wait_comp.update(state);
+            },
             
             _default => {}            
         }

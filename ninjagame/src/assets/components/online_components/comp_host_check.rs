@@ -7,8 +7,9 @@ use crate::{GameState, assets, turbecs::{self, managers::scene_manager::Scenes}}
 
 use turbecs::entity::Entity;
 
-use assets::online::host_tracker;
+use assets::prefabs::online_set_up_prefabs;
 
+use assets::online::host_tracker;
 use host_tracker::{GetID, GetIDRequest, HostSheet, NewCode};
 
 #[turbo::serialize]
@@ -21,6 +22,7 @@ pub struct HostCheckComponent {
     pub clear : bool,
 
     pub db_ref : HostSheet,
+    pub dt : f32,
 
 }
 
@@ -34,7 +36,8 @@ impl HostCheckComponent {
             lobby_code : some_u32,
             sent : false,
             clear : false,
-            db_ref : HostSheet::empty()
+            db_ref : HostSheet::empty(),
+            dt : 0.0
         };
 
     }
@@ -58,8 +61,19 @@ impl HostCheckComponent {
 
             }
             else {
-                self.validate_db(state);
+                self.validate_db(ent, state);
             }
+
+        }
+
+        self.dt += state.time_manager.delta;
+
+        if self.dt > 10.0 {
+
+            // Sanity
+            log!("Timeout, try again");
+
+            state.scene_manager.load_scene(Scenes::HostCode);
 
         }
 
@@ -114,7 +128,14 @@ impl HostCheckComponent {
             let cmd = NewCode::new(self.lobby_code);
             cmd.exec();
 
+            // Sanity
             log!("Storing lobby code!");
+
+            // Storing data in the online manager
+
+            state.online_manager.lobby_code = self.lobby_code;
+
+            // flip
 
             self.clear = true;
 
@@ -129,7 +150,7 @@ impl HostCheckComponent {
 
     }
 
-    pub fn validate_db(&mut self, state : &mut GameState) {
+    pub fn validate_db(&mut self, ent : &mut Entity, state : &mut GameState) {
 
         self.db_ref = HostSheet::watch("hostTracker").parse().unwrap_or(HostSheet::empty());
 
@@ -149,10 +170,16 @@ impl HostCheckComponent {
             else {
                 
                 // Sanity
-                // log!("we gucci twin");
+                log!("we gucci twin, will change now");
 
                 // We are the host for sure here
                 // Make a new component to start chatting with players
+
+                // Crates the new entity that has the subscribe system
+                state.new_entity_w_comp(&mut online_set_up_prefabs::new_host_wait(self.player_id.clone(), self.lobby_code));
+                
+                // destroys this one?
+                state.entity_manager.lifetime_data.new_destroy.push_back(ent.locat);
 
             }
 

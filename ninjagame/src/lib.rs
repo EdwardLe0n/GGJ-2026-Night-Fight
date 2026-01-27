@@ -28,6 +28,9 @@ use managers::particlemanager::ParticleManager;
 mod assets;
 use assets::game_state::{run_data::RunData, score_manager::ScoreManager, online_manager::OnlineManager};
 
+use assets::online;
+use online::host_tracker::InitCode;
+
 
 #[turbo::game]
 struct GameState {
@@ -59,6 +62,11 @@ struct GameState {
 
 impl GameState {
     fn new() -> Self {
+
+        // NEEDED, game breaks otherwise
+
+        let start = InitCode::new();
+        start.exec();
 
         camera::set_xy(0, 0);
 

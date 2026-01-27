@@ -26,7 +26,7 @@ use buttons::{scene_loader_buttons, misc_buttons, online_buttons};
 
 use scene_loader_buttons::{to_misc, to_title};
 use scene_loader_buttons::{to_host_code, to_host_wait};
-use scene_loader_buttons::{to_join_code};
+use scene_loader_buttons::{to_join_code, to_join_wait};
 
 // misc buttons
 
@@ -325,7 +325,10 @@ impl ButtonComponent {
             },
             ButtonTypes::ToJoin => {
                 to_join_code::on_click(self, _ent, _state);
-            }
+            },
+            ButtonTypes::ToJoinWait => {
+                to_join_wait::on_click(self, _ent, _state);
+            },
 
             // misc
 

@@ -232,9 +232,7 @@ pub struct GetID;
 
 #[turbo::serialize]
 pub struct GiveID {
-
     pub player_id : String
-
 }
 
 #[turbo::os::channel(program = "hostTracker", name = "getID")]
@@ -247,5 +245,42 @@ impl ChannelHandler for GetIDRequest {
     } 
     fn on_data(&mut self, user_id: &str, data: Self::Recv) -> Result<(), std::io::Error> {
         Self::send(user_id, GiveID{player_id : user_id.to_string()})
+    }
+}
+
+#[turbo::serialize]
+pub struct ConnectNotice {
+    pub target_id : String,
+    pub some_bool : bool
+}
+
+impl ConnectNotice {
+    
+    pub fn new(some_str : String) -> Self {
+        return Self {
+            target_id : some_str,
+            some_bool : true
+        };
+    }
+
+    pub fn new_w_all(some_str : String, some_bool : bool) -> Self {
+        return Self {
+            target_id : some_str,
+            some_bool : some_bool
+        };
+    }
+
+}
+
+#[turbo::os::channel(program = "hostTracker", name = "playerConnectNotice")]
+pub struct PlayerConnectNotice;
+impl ChannelHandler for PlayerConnectNotice { 
+    type Recv = ConnectNotice; // incoming from client
+    type Send = ConnectNotice; // outgoing to client
+    fn new() -> Self { 
+        Self
+    } 
+    fn on_data(&mut self, user_id: &str, data: Self::Recv) -> Result<(), std::io::Error> {
+        Self::send(&data.target_id, ConnectNotice::new_w_all(user_id.to_owned(), data.some_bool))
     }
 }

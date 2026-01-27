@@ -57,6 +57,6 @@ pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &m
 
     _state.scene_manager.load_scene(Scenes::PlayerWait);
 
-    _state.new_entity_w_comp(&mut online_set_up_prefabs::new_host_check_up(some_code));
+    _state.new_entity_w_comp(&mut online_set_up_prefabs::new_player_wait(some_code));
 
 }

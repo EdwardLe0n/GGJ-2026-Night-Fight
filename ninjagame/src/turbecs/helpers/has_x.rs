@@ -69,13 +69,16 @@ impl Component {
         match &self.component_data {
 
             // Core functionality
-            ComponentData::Button(_) => {self.has.has_update = true;},
+            ComponentData::Button(_)        => {self.has.has_update = true;},
 
-            ComponentData::LogoFade(_) => {self.has.has_update = true;},
+            ComponentData::LogoFade(_)      => {self.has.has_update = true;},
 
             ComponentData::SpriteSheetRenderer(_) => {self.has.has_update = true;},
 
-            ComponentData::HostCheck(_) => {self.has.has_update = true;}
+            ComponentData::HostCheck(_)     => {self.has.has_update = true;},
+            ComponentData::HostWait(_)      => {self.has.has_update = true;}
+
+            ComponentData::PlayerWait(_)    => {self.has.has_update = true;},
             
             _default => {}
         }

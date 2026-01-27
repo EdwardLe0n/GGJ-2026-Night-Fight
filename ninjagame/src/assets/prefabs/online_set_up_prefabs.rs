@@ -23,7 +23,11 @@ use misc_components::comp_logo_fade::{LogoFade, LogoFadeComponent};
 
 use online_components::comp_code_container::CodeContainerComponent;
 use online_components::comp_number::NumberComponent;
+
 use online_components::comp_host_check::HostCheckComponent;
+use online_components::comp_host_wait::HostWaitComponent;
+
+use online_components::comp_player_wait::PlayerWaitComponent;
 
 pub fn new_code_container () -> (Entity, VecDeque<Component>) {
 
@@ -218,6 +222,25 @@ pub fn new_host_check_up (some_u32 : u32) -> (Entity, VecDeque<Component>) {
 
 }
 
+pub fn new_host_wait (some_id : String, some_u32 : u32) -> (Entity, VecDeque<Component>) {
+
+    let mut ent = Entity::new_base("host check up".to_string());
+    let mut ent_queue = VecDeque::new();
+    
+    ent.set_layer(3);
+    
+    ent_queue.push_back(
+        Component::new(
+            ComponentData::HostWait(
+                HostWaitComponent::new(some_id, some_u32)
+            )
+        )
+    );
+
+    return (ent, ent_queue);
+
+}
+
 pub fn new_to_player_wait() -> (Entity, VecDeque<Component>) {
 
     let mut ent = Entity::new_base("gamer button that says join".to_string());
@@ -254,6 +277,25 @@ pub fn new_to_player_wait() -> (Entity, VecDeque<Component>) {
     ent_queue.push_back(Component::new(ComponentData::TextBox(text_box)));
 
     ent_queue.push_back(Component::new(ComponentData::TextBoxResizer(TextBoxResizerComponent::new_with_buffers(2, 2))));
+
+    return (ent, ent_queue);
+
+}
+
+pub fn new_player_wait (some_u32 : u32) -> (Entity, VecDeque<Component>) {
+
+    let mut ent = Entity::new_base("player wait".to_string());
+    let mut ent_queue = VecDeque::new();
+    
+    ent.set_layer(3);
+    
+    ent_queue.push_back(
+        Component::new(
+            ComponentData::PlayerWait(
+                PlayerWaitComponent::new(some_u32)
+            )
+        )
+    );
 
     return (ent, ent_queue);
 
