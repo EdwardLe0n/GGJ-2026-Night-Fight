@@ -2,6 +2,10 @@ use turbo::{serde_json::to_string, *};
 
 use crate::{turbecs, assets};
 
+use assets::online;
+
+use online::host_tracker::{ClearHostList, InitCode};
+
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -15,6 +19,11 @@ impl OnlineManager {
     
     pub fn new() -> Self {
 
+        // NEEDED, game breaks otherwise
+
+        let start = InitCode::new();
+        start.exec();
+
         return Self {
             
         };
@@ -25,9 +34,9 @@ impl OnlineManager {
 
 impl OnlineManager {
 
-    pub fn update_w_info(&mut self) {
+    pub fn update(&mut self) {
 
-        
+        self.handle_reset();
 
     }
 
@@ -46,6 +55,22 @@ impl OnlineManager {
         some_str.push(some_elemnt.2 as char);
 
         return some_str;
+
+    }
+
+}
+
+impl OnlineManager {
+    
+    pub fn handle_reset(&self) {
+
+        let keyboard = keyboard::get();
+
+        if keyboard.key_l().just_pressed() {
+
+            let tmp = ClearHostList::exec(ClearHostList {  });
+
+        }
 
     }
 

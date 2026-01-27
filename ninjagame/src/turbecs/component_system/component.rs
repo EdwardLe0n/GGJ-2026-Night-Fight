@@ -126,6 +126,10 @@ impl Component {
                 return ComponentTypes::Number;
             },
 
+            ComponentData::HostCheck(_) => {
+                return ComponentTypes::HostCheck;
+            },
+
             // Edge case
 
             _default => {

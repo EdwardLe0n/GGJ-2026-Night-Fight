@@ -18,7 +18,9 @@ pub struct HostCheckComponent {
     pub player_id : String,
     pub lobby_code : u32,
     pub sent : bool,
-    pub clear : bool
+    pub clear : bool,
+
+    pub db_ref : HostSheet,
 
 }
 
@@ -31,7 +33,8 @@ impl HostCheckComponent {
             player_id : "".to_string(),
             lobby_code : some_u32,
             sent : false,
-            clear : false
+            clear : false,
+            db_ref : HostSheet::empty()
         };
 
     }
@@ -96,16 +99,14 @@ impl HostCheckComponent {
         // Sanity
         // log!("checking db");
 
-        let some_data = HostSheet::watch("hostTracker").parse().unwrap_or(HostSheet::empty());
+        self.db_ref = HostSheet::watch("hostTracker").parse().unwrap_or(HostSheet::empty());
 
         // If host sheet is empty, ignore
-        if some_data.board == HostSheet::empty().board {
+        if self.db_ref.board == HostSheet::empty().board {
             return;
         }
 
-        log!("have board");
-
-        if !some_data.board.contains_key(&self.lobby_code) {
+        if !self.db_ref.board.contains_key(&self.lobby_code) {
 
             let cmd = NewCode::new(self.lobby_code);
             cmd.exec();
@@ -117,7 +118,7 @@ impl HostCheckComponent {
         }
         else {
 
-            if self.player_id != (some_data.board.get(&self.lobby_code).unwrap_or(&"".to_string())).to_string() {
+            if self.player_id != (self.db_ref.board.get(&self.lobby_code).unwrap_or(&"".to_string())).to_string() {
                 state.scene_manager.load_scene(Scenes::HostCode);
             }
 

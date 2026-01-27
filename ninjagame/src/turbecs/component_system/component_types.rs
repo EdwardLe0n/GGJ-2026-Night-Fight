@@ -20,6 +20,7 @@ pub enum ComponentTypes {
 
     CodeContainer,
     Number,
+    HostCheck,
 
     RectangleCollider,
 

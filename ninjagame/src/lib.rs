@@ -102,7 +102,7 @@ impl GameState {
 
         self.particle_manager.update();
 
-        self.online_manager.update_w_info();
+        self.online_manager.update();
 
         // From here TurbECS will run it's lifetime functions!
 

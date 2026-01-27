@@ -4,6 +4,7 @@ use turbo::*;
 use turbo::os::server::*;
 
 #[turbo::os::document(program = "hostTracker")]
+#[derive(PartialEq)]
 pub struct HostSheet {
     pub board: HashMap<u32, String>,
 }
@@ -12,11 +13,7 @@ impl HostSheet {
 
     pub fn new() -> Self {
 
-        let mut temp = HashMap::new();
-
-        temp.insert(0 as u32, "IGB".to_string());
-
-        return Self { board: temp };
+        return Self::empty();
 
     }
 
@@ -28,6 +25,120 @@ impl HostSheet {
 
     }
 
+}
+
+// This will be called when a player can update the database with their key
+
+#[turbo::os::command(program = "hostTracker", name = "initCode")]
+pub struct InitCode {
+    pub some_code : u32,
+    pub some_str : String
+}
+
+impl InitCode {
+
+    pub fn new() -> Self {
+
+        return Self { 
+            some_code: 2026,
+            some_str : "GotBoredGames".to_string()
+        };
+
+    }
+
+}
+
+impl CommandHandler for InitCode {
+    fn run(&mut self, user_id: &str) -> Result<(), std::io::Error> {
+
+        // log!("Making new lobby!");
+        
+        // Read existing list or default
+        
+        let mut le_board = fs::read("hostTracker")
+            .unwrap_or(HostSheet::new());
+
+
+        // first checks that it doesn't exist in the database
+
+        if !le_board.board.contains_key(&self.some_code) {
+
+            // adds hosts to database
+        
+            le_board.board.insert(self.some_code, self.some_str.to_owned());
+
+        }
+        else {
+            log!("couldn't make new room...");
+        }
+
+        // logs all hosts
+
+        for element in &le_board.board {
+            log!("host {:?}, has key {:?}", element.1, element.0);
+        }
+
+        // Persist updated counter
+        fs::write("hostTracker", &le_board)?;
+
+        Ok(())
+    }
+}
+
+// This will be called when a host goes back to the main menu, therefore freeing up that key
+
+#[turbo::os::command(program = "hostTracker", name = "removeCode")]
+pub struct RemoveCode {
+    pub some_code : u32,
+    pub some_str : String
+}
+
+impl RemoveCode {
+
+    pub fn new(some_u32 : u32, some_str : String) -> Self {
+
+        return Self { 
+            some_code: some_u32,
+            some_str : some_str
+        };
+
+    }
+
+}
+
+impl CommandHandler for RemoveCode {
+    fn run(&mut self, user_id: &str) -> Result<(), std::io::Error> {
+
+        // log!("Making new lobby!");
+        
+        // Read existing list or default
+        
+        let mut le_board = fs::read("hostTracker")
+            .unwrap_or(HostSheet::new());
+
+
+        // first checks that it doesn't exist in the database
+
+        if le_board.board.contains_key(&self.some_code) {
+
+            if le_board.board.get(&self.some_code).unwrap_or(&"".to_string()) == &self.some_str {
+                le_board.board.remove(&self.some_code);
+                log!("freed up host key");
+            }
+
+        }
+
+        // logs all hosts
+
+        for element in &le_board.board {
+            log!("host {:?}, has key {:?}", element.1, element.0);
+        }
+
+        // Persist updated counter
+        fs::write("hostTracker", &le_board)?;
+
+        Ok(())
+    }
 }
 
 // This will be called when a player can update the database with their key
@@ -57,7 +168,6 @@ impl CommandHandler for NewCode {
         let mut le_board = fs::read("hostTracker")
             .unwrap_or(HostSheet::new());
 
-
         // first checks that it doesn't exist in the database
 
         if !le_board.board.contains_key(&self.some_code) {
@@ -79,6 +189,39 @@ impl CommandHandler for NewCode {
 
         // Persist updated counter
         fs::write("hostTracker", &le_board)?;
+
+        Ok(())
+    }
+}
+
+// This will be called by a client to reset all lobbies
+
+#[turbo::os::command(program = "hostTracker", name = "clearList")]
+pub struct ClearHostList {
+    
+}
+
+impl CommandHandler for ClearHostList {
+    fn run(&mut self, user_id: &str) -> Result<(), std::io::Error> {
+
+        if user_id == "63c55578-a270-42a9-9084-c89191a53418" {
+
+            log!("Resetting online system");
+        
+            // Read existing list or default
+            
+            let le_board = HostSheet::new();
+
+            // logs all hosts
+
+            for element in &le_board.board {
+                log!("host {:?}, has key {:?}", element.1, element.0);
+            }
+
+            // Persist updated counter
+            fs::write("hostTracker", &le_board)?;
+
+        }
 
         Ok(())
     }

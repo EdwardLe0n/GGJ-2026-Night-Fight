@@ -1,6 +1,6 @@
 // Core directories
 
-use crate::turbecs;
+use crate::{turbecs, assets};
 
 use crate::GameState;
 
@@ -11,6 +11,8 @@ use turbecs::component_system;
 use turbecs::managers::scene_manager::Scenes;
 
 use component_system::components::comp_butn::ButtonComponent;
+
+use assets::online;
 
 // Click sensitive functions
 
