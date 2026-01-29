@@ -285,17 +285,26 @@ impl Component {
 
             ComponentData::SpriteSheetRenderer(sprt_sht_rend_component) => {
                 sprt_sht_rend_component.render(_transform);
-            }
+            },
 
             // Game Specific components
 
             ComponentData::CodeContainer(code_cont_component) => {
                 code_cont_component.render();
-            }
+            },
+
+            ComponentData::HostWait(host_wait_comp) => {
+                host_wait_comp.render(state);
+            },
+
+            ComponentData::PlayerWait(plyr_wait_comp) => {
+                plyr_wait_comp.render();
+            },
 
             // Space for edge case
 
             _default => {}
+            
         }
     }
 }

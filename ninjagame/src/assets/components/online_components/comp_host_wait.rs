@@ -46,6 +46,51 @@ impl HostWaitComponent {
 
     }
 
+    pub fn render(&self, state : &mut GameState) {
+
+        let mut some_str = "Lobby code: ".to_string();
+
+        some_str.push_str(&self.lobby_code.to_string());
+
+        some_str.push('\n');
+        some_str.push('\n');
+
+        some_str.push_str("Player one status:");
+
+        if self.player1 != "" {
+
+            some_str.push_str(" ready");
+
+        }
+
+        some_str.push('\n');
+
+        some_str.push_str("Player two status:");
+
+        if self.player2 != "" {
+
+            some_str.push_str(" ready");
+
+            some_str.push('\n');
+            some_str.push('\n');
+
+            some_str.push_str("Ready to duel!");
+
+        }
+
+        text_box!(
+            &some_str,
+            font = "large",
+            width = screen().w()/2,
+            height = 100,
+            x = -20,
+            y = (screen().h() as i32 / 2) * -1 + 20,
+            color = 0xffffffff,
+            align = "right"
+        );
+
+    }
+
 }
 
 impl HostWaitComponent {

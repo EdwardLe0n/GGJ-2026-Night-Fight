@@ -13,7 +13,7 @@ pub struct OnlineManager {
     
     pub lobby_code : u32,
     pub first_id : String,
-    pub second_id : String
+    pub second_id : String,
 
 }
 

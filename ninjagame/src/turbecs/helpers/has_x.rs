@@ -76,7 +76,7 @@ impl Component {
             ComponentData::SpriteSheetRenderer(_) => {self.has.has_update = true;},
 
             ComponentData::HostCheck(_)     => {self.has.has_update = true;},
-            ComponentData::HostWait(_)      => {self.has.has_update = true;}
+            ComponentData::HostWait(_)      => {self.has.has_update = true;},
 
             ComponentData::PlayerWait(_)    => {self.has.has_update = true;},
             
@@ -103,6 +103,10 @@ impl Component {
             // Game specific
 
             ComponentData::CodeContainer(_)     => {self.has.has_render = true;},
+
+            ComponentData::HostWait(_)          => {self.has.has_render = true;},
+
+            ComponentData::PlayerWait(_)        => {self.has.has_render = true;},
             
             _default => {}
         }

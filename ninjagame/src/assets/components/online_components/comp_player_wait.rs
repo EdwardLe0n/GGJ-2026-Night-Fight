@@ -81,6 +81,41 @@ impl PlayerWaitComponent {
 
     }
 
+    pub fn render(&self) {
+
+        let mut some_str = "".to_string();
+
+        match &self.join_state {
+            JoinState::Done => {
+
+                some_str.push_str("Connected!");
+
+                some_str.push('\n');
+                some_str.push('\n');
+
+                some_str.push_str("Wait for host...");
+
+            }
+            _default => {
+
+                some_str.push_str("Connecting...");
+
+            }
+        }
+
+        text_box!(
+            &some_str,
+            font = "large",
+            width = 200,
+            height = 100,
+            x = -100,
+            y = 0,
+            color = 0xffffffff,
+            align = "center"
+        );
+
+    }
+
 }
 
 impl PlayerWaitComponent {

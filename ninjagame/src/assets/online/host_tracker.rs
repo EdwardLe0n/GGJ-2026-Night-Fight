@@ -125,6 +125,10 @@ impl CommandHandler for RemoveCode {
                 le_board.board.remove(&self.some_code);
                 log!("freed up host key");
             }
+            else if le_board.board.get(&self.some_code).unwrap_or(&"".to_string()) == user_id {
+                le_board.board.remove(&self.some_code);
+                log!("freed up host key");
+            }
 
         }
 
