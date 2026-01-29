@@ -17,7 +17,10 @@ pub struct SpriteComponent {
     pub color: u32, 
     pub opacity: f32, 
     pub flip_factor: Flip, 
-    pub frame: usize
+    pub frame: usize, 
+    pub cover: bool,
+    pub tx: i32,
+    pub ty: i32,
 }
 
 impl SpriteComponent {
@@ -30,7 +33,10 @@ impl SpriteComponent {
             color : 0xffffffff,
             opacity : 1.0,
             flip_factor : Flip::new(),
-            frame : 0
+            frame : 0,
+            cover: true,
+            tx : 0,
+            ty : 0
         };
 
         return spr;
@@ -57,15 +63,18 @@ impl SpriteComponent {
             self.name.as_str(),
             x = self.transform.get_x_offset() + transform.get_x_offset(),
             y = self.transform.get_y_offset() + transform.get_y_offset(),
-            w = self.transform.get_width() as f32 * self.transform.get_scale_x() * transform.get_scale_x(),
-            h = self.transform.get_height() as f32 * self.transform.get_scale_y() * transform.get_scale_y(),
+            w = self.transform.get_width() as f32,
+            h = self.transform.get_height() as f32,
             color = self.color,
             opacity = self.opacity,
             rotation = self.transform.get_rotation() + transform.get_rotation(),
-            scale_x = self.transform.get_scale_x(),
-            scale_y = self.transform.get_scale_y(),
+            scale_x = self.transform.get_scale_x() * transform.get_scale_x(),
+            scale_y = self.transform.get_scale_y() * transform.get_scale_y(),
             flip_x = self.flip_factor.get_x(),
-            flip_y = self.flip_factor.get_y()
+            flip_y = self.flip_factor.get_y(),
+            cover = self.cover,
+            tx = -self.tx,
+            ty = -self.ty
         )
 
     }

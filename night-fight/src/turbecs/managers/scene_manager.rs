@@ -8,7 +8,7 @@ use turbecs::component_system::component::Component;
 
 use crate::assets;
 
-use assets::prefabs::{general_prefabs, online_set_up_prefabs};
+use assets::prefabs::{general_prefabs, online_set_up_prefabs, game_prefabs};
 
 #[turbo::serialize]
 #[derive(Copy, PartialEq)]
@@ -184,7 +184,15 @@ pub fn make_player_game_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
     ent_vec.push_back(general_prefabs::new_to_title());
 
-    
+    ent_vec.push_back(game_prefabs::new_offense_button(0, 0));
+    ent_vec.push_back(game_prefabs::new_agile_button(1, 0));
+    ent_vec.push_back(game_prefabs::new_wait_button(2, 0));
+    ent_vec.push_back(game_prefabs::new_mixed_button(3, 0));
+
+    ent_vec.push_back(game_prefabs::new_tank_button(0, 1));
+    ent_vec.push_back(game_prefabs::new_nimble_button(1, 1));
+    ent_vec.push_back(game_prefabs::new_aggro_button(2, 1));
+    ent_vec.push_back(game_prefabs::new_parry_button(3, 1));
 
     return ent_vec;
 
