@@ -9,7 +9,7 @@ use turbecs::entity::Entity;
 
 use assets::online::{game_channel, host_tracker};
 
-use host_tracker::{PlayerConnectNotice, ConnectNotice};
+use host_tracker::{PlayerConnectNotice, PlayerBeginNotice, ConnectNotice};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -19,6 +19,7 @@ pub struct HostWaitComponent {
     pub lobby_code : u32,
     pub player1 : String,
     pub player2 : String,
+    pub ready : bool,
 
 }
 
@@ -32,6 +33,7 @@ impl HostWaitComponent {
             lobby_code : some_u32,
             player1 : "".to_string(),
             player2 : "".to_string(),
+            ready : false
         };
 
     }
@@ -42,7 +44,11 @@ impl HostWaitComponent {
     
     pub fn update(&mut self, ent : &mut Entity, state : &mut GameState) {
 
-        self.listen_for_players();  
+        self.listen_for_players(state);
+        
+        if self.ready {
+            self.set_up_new_scene(state);
+        }
 
     }
 
@@ -95,7 +101,7 @@ impl HostWaitComponent {
 
 impl HostWaitComponent {
 
-    fn listen_for_players(&mut self) {
+    fn listen_for_players(&mut self, state : &mut GameState) {
 
         if let Some(conn) = PlayerConnectNotice::subscribe("default") {
 
@@ -122,6 +128,10 @@ impl HostWaitComponent {
                     } else {
 
                         self.player2 = msg.target_id.clone();
+
+                        // here we assume both players are ready, so now we're ready!
+
+                        self.ready = true;
                          
                     }
 
@@ -141,6 +151,19 @@ impl HostWaitComponent {
             //     let _ = conn.send(&ConnectNotice::new(self.host_id.clone()));
 
             // }
+
+        }
+
+    }
+
+    fn set_up_new_scene(&mut self, state : &mut GameState) {
+
+        if let Some(conn) = PlayerBeginNotice::subscribe("default") {
+
+            // let p1 = conn.send(&ConnectNotice::new(self.player1.clone()));
+            // let p2 = conn.send(&ConnectNotice::new(self.player2.clone()));
+
+            
 
         }
 

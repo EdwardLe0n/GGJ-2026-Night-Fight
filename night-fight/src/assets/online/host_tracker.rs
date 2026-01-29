@@ -288,3 +288,16 @@ impl ChannelHandler for PlayerConnectNotice {
         Self::send(&data.target_id, ConnectNotice::new_w_all(user_id.to_owned(), data.some_bool))
     }
 }
+
+#[turbo::os::channel(program = "hostTracker", name = "playerBeginNotice")]
+pub struct PlayerBeginNotice;
+impl ChannelHandler for PlayerBeginNotice { 
+    type Recv = ConnectNotice; // incoming from client
+    type Send = ConnectNotice; // outgoing to client
+    fn new() -> Self { 
+        Self
+    } 
+    fn on_data(&mut self, user_id: &str, data: Self::Recv) -> Result<(), std::io::Error> {
+        Self::send(&data.target_id, ConnectNotice::new(user_id.to_owned()))
+    }
+}

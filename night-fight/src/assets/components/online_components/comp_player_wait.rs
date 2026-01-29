@@ -9,7 +9,7 @@ use turbecs::managers::scene_manager::Scenes;
 use assets::online::host_tracker;
 
 use host_tracker::HostSheet;
-use host_tracker::{ConnectNotice, PlayerConnectNotice};
+use host_tracker::{ConnectNotice, PlayerConnectNotice, PlayerBeginNotice};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -73,7 +73,10 @@ impl PlayerWaitComponent {
                 }
 
                 self.handle_listen(state);
-            }
+            },
+            JoinState::Done => {
+                self.handle_done(state);
+            },
             _default => {
 
             }
@@ -178,6 +181,24 @@ impl PlayerWaitComponent {
                         Scenes::PlayerCode
                     );
                 }
+
+                return;
+
+            }
+
+        }
+
+    }
+
+    fn handle_done(&mut self, state : &mut GameState) {
+
+        // log!("at done");
+
+        if let Some(conn) = PlayerBeginNotice::subscribe("default") {
+
+            while let Ok(msg) = conn.recv() { 
+                
+                // log!("We gotta begin now");
 
                 return;
 

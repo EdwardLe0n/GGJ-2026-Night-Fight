@@ -15,6 +15,16 @@ pub enum ButtonTypes {
     ToJoin,
     ToJoinWait,
 
+    Offense,
+    Agile,
+    Mixed,
+    Idle,
+
+    Tank,
+    Aggro,
+    Nimble,
+    Parry,
+
     Test,
 
     MobileOn,
@@ -22,8 +32,6 @@ pub enum ButtonTypes {
 
     Number,
     Clear,
-
-    // User made buttons
 
 }
 

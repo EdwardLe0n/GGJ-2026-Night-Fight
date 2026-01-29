@@ -39,7 +39,8 @@ impl SceneManager {
 
     pub fn new() -> Self {
 
-        return Self{active_scene : Scenes::DevCards, is_loaded : false};
+        // return Self{active_scene : Scenes::DevCards, is_loaded : false};
+        return Self{active_scene : Scenes::PlayerGameButtons, is_loaded : false};
 
     }
 
@@ -60,8 +61,10 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component
 
         Scenes::HostCode => {return make_host_code_scene()},
         Scenes::HostWait => {return make_host_wait_scene()},
+        Scenes::HostGame => {return make_host_game_scene()},
 
         Scenes::PlayerCode => {return make_player_code_scene()},
+        Scenes::PlayerGameButtons => {return make_player_game_scene()},
 
         _default => {
             return VecDeque::new();
@@ -139,6 +142,16 @@ pub fn make_host_wait_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
 }
 
+pub fn make_host_game_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
+
+    let mut ent_vec = VecDeque::new();
+
+    ent_vec.push_back(general_prefabs::new_to_title());
+
+    return ent_vec;
+
+}
+
 pub fn make_player_code_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
     let mut ent_vec = VecDeque::new();
@@ -160,6 +173,18 @@ pub fn make_player_code_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
     ent_vec.push_back(online_set_up_prefabs::new_to_player_wait());
 
     ent_vec.push_back(general_prefabs::new_to_title());
+
+    return ent_vec;
+
+}
+
+pub fn make_player_game_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
+
+    let mut ent_vec = VecDeque::new();
+
+    ent_vec.push_back(general_prefabs::new_to_title());
+
+    
 
     return ent_vec;
 
