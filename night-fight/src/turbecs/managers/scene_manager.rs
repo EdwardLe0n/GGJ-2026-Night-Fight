@@ -39,8 +39,8 @@ impl SceneManager {
 
     pub fn new() -> Self {
 
-        // return Self{active_scene : Scenes::DevCards, is_loaded : false};
-        return Self{active_scene : Scenes::PlayerGameButtons, is_loaded : false};
+        return Self{active_scene : Scenes::DevCards, is_loaded : false};
+        // return Self{active_scene : Scenes::PlayerGameButtons, is_loaded : false};
 
     }
 
