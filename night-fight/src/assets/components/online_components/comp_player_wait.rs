@@ -174,6 +174,9 @@ impl PlayerWaitComponent {
                 if msg.some_bool {
                     log!("we're in!");
                     self.join_state = JoinState::Done;
+
+                    state.online_manager.first_id = msg.target_id;
+
                 }
                 else {
                     log!("lobby full");
@@ -198,7 +201,9 @@ impl PlayerWaitComponent {
 
             while let Ok(msg) = conn.recv() { 
                 
-                // log!("We gotta begin now");
+                state.scene_manager.load_scene(
+                    Scenes::PlayerGameButtons
+                );
 
                 return;
 

@@ -5,3 +5,6 @@ pub mod comp_host_check;
 pub mod comp_host_wait;
 
 pub mod comp_player_wait;
+
+pub mod comp_player_game;
+pub mod comp_host_game;
