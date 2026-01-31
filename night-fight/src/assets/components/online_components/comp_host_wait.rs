@@ -11,6 +11,8 @@ use assets::online::{game_channel, host_tracker};
 
 use host_tracker::{PlayerConnectNotice, PlayerBeginNotice, ConnectNotice};
 
+use assets::prefabs::online_set_up_prefabs;
+
 #[turbo::serialize]
 #[derive(PartialEq)]
 pub struct HostWaitComponent {
@@ -20,6 +22,7 @@ pub struct HostWaitComponent {
     pub player1 : String,
     pub player2 : String,
     pub ready : bool,
+    pub send : bool
 
 }
 
@@ -33,7 +36,8 @@ impl HostWaitComponent {
             lobby_code : some_u32,
             player1 : "".to_string(),
             player2 : "".to_string(),
-            ready : false
+            ready : false,
+            send : false
         };
 
     }
@@ -46,7 +50,7 @@ impl HostWaitComponent {
 
         self.listen_for_players(state);
         
-        if self.ready {
+        if self.ready && self.send {
             self.set_up_new_scene(state);
         }
 
@@ -132,6 +136,8 @@ impl HostWaitComponent {
                         // here we assume both players are ready, so now we're ready!
 
                         self.ready = true;
+
+                        state.new_entity_w_comp(&mut online_set_up_prefabs::new_to_host_game());
                          
                     }
 
@@ -160,10 +166,13 @@ impl HostWaitComponent {
 
         if let Some(conn) = PlayerBeginNotice::subscribe("default") {
 
-            // let p1 = conn.send(&ConnectNotice::new(self.player1.clone()));
-            // let p2 = conn.send(&ConnectNotice::new(self.player2.clone()));
+            let _p1 = conn.send(&ConnectNotice::new(self.player1.clone()));
+            let _p2 = conn.send(&ConnectNotice::new(self.player2.clone()));
 
-            
+            // we're here now
+
+            state.scene_manager.load_scene(Scenes::HostGame);
+
 
         }
 

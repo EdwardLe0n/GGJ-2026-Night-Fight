@@ -8,3 +8,5 @@ pub mod to_host_wait;
 
 pub mod to_join_code;
 pub mod to_join_wait;
+
+pub mod to_host_game;

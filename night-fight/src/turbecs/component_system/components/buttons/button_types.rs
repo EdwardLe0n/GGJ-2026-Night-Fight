@@ -10,6 +10,7 @@ pub enum ButtonTypes {
     
     ToHost,
     ToHostWait,
+    ToHostGame,
     ToGame,
 
     ToJoin,

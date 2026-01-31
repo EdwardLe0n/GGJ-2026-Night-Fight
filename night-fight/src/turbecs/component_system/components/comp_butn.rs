@@ -27,6 +27,7 @@ use buttons::{scene_loader_buttons, misc_buttons, online_buttons};
 use scene_loader_buttons::{to_misc, to_title};
 use scene_loader_buttons::{to_host_code, to_host_wait};
 use scene_loader_buttons::{to_join_code, to_join_wait};
+use scene_loader_buttons::to_host_game;
 
 // misc buttons
 
@@ -348,6 +349,9 @@ impl ButtonComponent {
             ButtonTypes::Clear => {
                 clear_butn::on_click(self, _ent, _state);
             },
+            ButtonTypes::ToHostGame => {
+                to_host_game::on_click(self, _ent, _state);
+            }
 
             _default => {
 

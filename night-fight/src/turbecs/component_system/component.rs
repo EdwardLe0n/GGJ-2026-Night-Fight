@@ -138,6 +138,10 @@ impl Component {
                 return ComponentTypes::HostCheck;
             },
 
+            ComponentData::HostWait(_) => {
+                return ComponentTypes::HostWait;
+            },
+
             // Edge case
 
             _default => {

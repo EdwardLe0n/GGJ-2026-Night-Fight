@@ -68,7 +68,7 @@ impl HostCheckComponent {
 
         self.dt += state.time_manager.delta;
 
-        if self.dt > 10.0 {
+        if self.dt > 20.0 {
 
             // Sanity
             log!("Timeout, try again");
@@ -90,9 +90,9 @@ impl HostCheckComponent {
             while let Ok(msg) = conn.recv() { 
                 self.player_id = msg.player_id;
                 
-                log!("Got id!");
+                log!("Got id! : {:?}", self.player_id);
 
-                self.sent = false;
+                // self.sent = false;
 
                 return;
 
@@ -101,7 +101,7 @@ impl HostCheckComponent {
             // If we haven't yet sent a message to the server, request to get our data
             if !self.sent {
 
-                self.sent = true;
+                // self.sent = true;
 
                 let _ = conn.send(&GetID);
 
@@ -113,15 +113,16 @@ impl HostCheckComponent {
 
     pub fn check_db(&mut self, state : &mut GameState) {
 
-        // Sanity
-        // log!("checking db");
-
-        self.db_ref = HostSheet::watch("hostTracker").parse().unwrap_or(HostSheet::empty());
+        if self.db_ref.board == HostSheet::empty().board {
+            self.db_ref = HostSheet::watch("hostTracker").parse().unwrap_or(HostSheet::empty());
+        }
 
         // If host sheet is empty, ignore
         if self.db_ref.board == HostSheet::empty().board {
             return;
         }
+
+        log!("checking database");
 
         if !self.db_ref.board.contains_key(&self.lobby_code) {
 

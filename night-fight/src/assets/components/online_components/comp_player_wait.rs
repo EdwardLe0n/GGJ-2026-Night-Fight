@@ -65,9 +65,7 @@ impl PlayerWaitComponent {
                     
                     log!("waited too long");
                     
-                    state.scene_manager.load_scene(
-                        Scenes::PlayerCode
-                    );
+                    self.join_state = JoinState::Ping;
 
                     return;
                 }
@@ -89,6 +87,15 @@ impl PlayerWaitComponent {
         let mut some_str = "".to_string();
 
         match &self.join_state {
+            JoinState::Checking => {
+                some_str.push_str("Checking...");
+            },
+            JoinState::Ping => {
+                some_str.push_str("Ping...");
+            },
+            JoinState::Listen(dt) => {
+                some_str.push_str("Listening...");
+            },
             JoinState::Done => {
 
                 some_str.push_str("Connected!");
@@ -98,7 +105,7 @@ impl PlayerWaitComponent {
 
                 some_str.push_str("Wait for host...");
 
-            }
+            },
             _default => {
 
                 some_str.push_str("Connecting...");

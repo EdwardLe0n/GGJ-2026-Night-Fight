@@ -248,6 +248,9 @@ impl ChannelHandler for GetIDRequest {
         Self
     } 
     fn on_data(&mut self, user_id: &str, data: Self::Recv) -> Result<(), std::io::Error> {
+
+        log!("attempting to get id!");
+
         Self::send(user_id, GiveID{player_id : user_id.to_string()})
     }
 }
